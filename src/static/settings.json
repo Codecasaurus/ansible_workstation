@@ -1,0 +1,59 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "[python]": {
+        "editor.rulers": [
+            88
+        ],
+    },
+    "python.formatting.provider": "black",
+    "python.linting.flake8Args": [
+        "--max-line-length=88",
+        "--ignore=E203,W503,E231"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.poetryPath": "poetry",
+    "breadcrumbs.enabled": true,
+    "diffEditor.renderSideBySide": false,
+    "editor.autoClosingQuotes": "beforeWhitespace",
+    "editor.fontFamily": "'Jetbrains Mono', Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 16,
+    "editor.minimap.enabled": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.suggestSelection": "first",
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "meta.function-call.generic",
+                "settings": {
+                    "foreground": "#eeb03e"
+                }
+            }
+        ]
+    },
+    "files.exclude": {
+        "**/*.pyc": true,
+        "**/.pytest_cache": true,
+        "**/.vscode": true,
+        "**/__pycache__": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/build/**": true
+      },
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "window.zoomLevel": 1,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "remote.containers.dockerComposePath": "podman-compose",
+    "remote.containers.dockerPath": "podman",
+}

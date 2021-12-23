@@ -1,0 +1,108 @@
+---
+- name: "Manage workstation"
+  hosts: "localhost"
+  connection: "local"
+
+  tasks:
+
+    - name: "Install DNF core plugins"
+      ansible.builtin.package:
+        name: "dnf-plugins-core"
+        state: "present"
+      become: true
+
+    - name: "Import VSCodium GPG key"
+      ansible.builtin.rpm_key:
+        key: "https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg"
+        state: "present"
+      become: true
+
+    - name: "Add VSCodium repo"
+      ansible.builtin.yum_repository:
+        description: "gitlab.com_paulcarroty_vscodium_repo"
+        name: download.vscodium.com
+        baseurl: "https://download.vscodium.com/rpms/"
+        enabled: yes
+        gpgcheck: yes
+        repo_gpgcheck: yes
+        gpgkey: "https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg"
+      become: true
+
+    - name: "Add Terraform repo"
+      shell: dnf-config-manager --add-repo=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+      args:
+        creates: /etc/yum.repos.d/hashicorp.repo
+      become: true
+
+    - name: "Add GCloud SDK repo"
+      ansible.builtin.yum_repository:
+        description: "Google Cloud SDK"
+        name: google-cloud-sdk
+        baseurl: "https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64"
+        enabled: yes
+        gpgcheck: yes
+        repo_gpgcheck: no
+        gpgkey:
+          - "https://packages.cloud.google.com/yum/doc/yum-key.gpg"
+          - "https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
+      become: true
+
+    - name: "Install packages"
+      ansible.builtin.package:
+        name:
+          - "keepassxc"
+          - "codium"
+          - "terraform"
+          - "google-cloud-sdk"
+          - "kubectl"
+          - "chromium-freeworld"
+        state: "present"
+      become: true
+
+    - name: "Add VSCode extensions"
+      ansible.builtin.shell: |
+        codium --install-extension ms-python.python
+        codium --install-extension redhat.ansible
+        codium --install-extension redhat.vscode-yaml
+        codium --install-extension hashicorp.terraform
+        codium --install-extension yzhang.markdown-all-in-one
+        codium --install-extension wholroyd.jinja
+        codium --install-extension codezombiech.gitignore
+        codium --install-extension mohsen1.prettify-json
+
+    - name: "Copy VSCodium configuration files"
+      ansible.builtin.copy:
+        src: ./static/settings.json
+        dest: ~/.config/VSCodium/User/settings.json
+
+    - name: "Add flathub repository"
+      community.general.flatpak_remote:
+        name: "flathub"
+        state: "present"
+        flatpakrepo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
+        method: "system"
+      become: true
+
+    - name: "Install GIMP Flatpak"
+      community.general.flatpak:
+        name: "org.gimp.GIMP"
+        state: "present"
+      become: true
+
+    - name: "Install Spotify Flatpak"
+      community.general.flatpak:
+        name: "com.spotify.Client"
+        state: "present"
+      become: true
+
+    - name: "Install Discord Flatpak"
+      community.general.flatpak:
+        name: "com.discordapp.Discord"
+        state: present
+      become: true
+
+    - name: "Gnome nightlight enable"
+      community.general.dconf:
+        key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+        value: "true"
+        state: "present"

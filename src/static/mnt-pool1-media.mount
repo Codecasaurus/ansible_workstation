@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount Pool1 Media NFS share
+After=network-online.target
+Wants=network-online.target
+
+[Mount]
+What=dirt.codybrannan.com:/mnt/Pool1/Media
+Where=/mnt/Pool1/Media
+Type=nfs
+Options=_netdev,auto
+
+[Install]
+WantedBy=multi-user.target

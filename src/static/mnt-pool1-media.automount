@@ -1,0 +1,8 @@
+[Unit]
+Description=Automount mnt-Pool1-Media
+
+[Automount]
+Where=/mnt/Pool1/Media
+
+[Install]
+WantedBy=multi-user.target
