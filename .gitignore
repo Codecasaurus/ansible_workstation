@@ -1,2 +1,2 @@
-./src/roles
-./src/ansible_collections
+/src/roles
+/src/ansible_collections
